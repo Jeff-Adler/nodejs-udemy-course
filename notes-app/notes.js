@@ -16,9 +16,9 @@ const addNote = (title, body) => {
             body : body,
         })
         saveNotes(notes)
-        console.log(`New note added!`)
+        console.log(chalk.green.inverse(`New note added!`))
     } else {
-        console.log(`Note title taken.`)
+        console.log(chalk.red.inverse(`Note title taken.`))
     }
 }
 
@@ -32,11 +32,11 @@ const removeNote = (title) => {
 
     const truncatedNotes = notes.filter((note) => note.title.toLowerCase() != title.toLowerCase())
 
-    if (notes.length === truncatedNotes.length) {
-        console.log(chalk.red(`Could not locate note with title '${title}'.`))
-    } else {
+    if (notes.length > truncatedNotes.length) {
         saveNotes(notes)
-        console.log(chalk.green(`Note removed.`))
+        console.log(chalk.green.inverse(`Note removed.`))
+    } else {
+        console.log(chalk.red.inverse(`Could not locate note with title '${title}'.`))
     }
 }
 
