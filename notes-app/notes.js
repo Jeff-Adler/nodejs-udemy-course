@@ -4,9 +4,9 @@ const fs = require(`fs`)
 const addNote = (title, body) => {
     const notes = loadNotes()
 
-    const duplicateNotes = notes.filter((note) => note.title.toLowerCase() === title.toLowerCase())
+    const duplicateNote = notes.find((note) => note.title.toLowerCase() === title.toLowerCase())
 
-    if (duplicateNotes.length <= 0) {
+    if (!duplicateNote) {
         notes.push({
             title : title,
             body : body,
