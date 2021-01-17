@@ -3,9 +3,10 @@ const fs = require(`fs`)
 
 const addNote = (title, body) => {
     const notes = loadNotes()
-
     const duplicateNote = notes.find((note) => note.title.toLowerCase() === title.toLowerCase())
 
+    debugger
+    
     if (!duplicateNote) {
         notes.push({
             title : title,
