@@ -55,7 +55,7 @@ app.get('/weather', (req,res) => {
     geocode(address,(error, {latitude,longitude,location} = {}) => {
         if (error) return res.send({error})
 
-        forecast(latitude,longitude,(error, {temperature, feelsLike, weatherDescriptions} = {}) => {
+        forecast(latitude,longitude,(error, {temperature, feelsLike, weatherDescriptions}) => {
             if (error) return res.send({error})
 
             res.send({
