@@ -4,6 +4,9 @@ const hbs = require('hbs')
 
 const app = express()
 
+const geocode = require('./utils/geocode')
+const forecast = require('./utils/forecast')
+
 // Define paths for Express config
 const publicDirectoryPath = path.join(__dirname, '../public')
 const viewsPath = path.join(__dirname, '../templates/views')
@@ -49,10 +52,20 @@ app.get('/weather', (req,res) => {
         })
     }
 
-    res.send({
-        forecast: 'Cloudy',
-        location: 'New York',
-        address
+    geocode(address,(error, {latitude,longitude,location} = {}) => {
+        if (error) return res.send({error})
+
+        forecast(latitude,longitude,(error, {temperature, feelsLike, weatherDescriptions} = {}) => {
+            if (error) return res.send({error})
+
+            res.send({
+                address,
+                location,
+                temperature,
+                feelsLike,
+                weatherDescriptions
+            })
+        })
     })
 })
 
