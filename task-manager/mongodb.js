@@ -15,27 +15,8 @@ client.connect((error,client) => {
 
     const db = client.db(dbName);
 
-    // db.collection(`users`).updateOne({ _id: new ObjectID("6004e6a8113fd2fed7f16e0a") }, {
-    //     $inc: {
-    //         age : 1
-    //     }
-    // })
-    // .then((result) => {
-    //     console.log(result)
-    // })
-    // .catch((error) => {
-    //     console.log(error)
-    // })
+    db.collection(`tasks`).deleteOne({ _id: new ObjectID("6004e996747945ff9ccf5861")})
+    .then((result) => console.log(result))
+    .catch((error) => console.log(error))
 
-    db.collection(`tasks`).updateMany({ completed : false }, {
-        $set: {
-            completed: true
-        }
-    })
-    .then((result) => {
-        console.log(result)
-    })
-    .catch((error) => {
-        console.log(error)
-    })
   });
