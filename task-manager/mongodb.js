@@ -15,21 +15,13 @@ client.connect((error,client) => {
 
     const db = client.db(dbName);
 
-    // db.collection(`users`).findOne({ _id: new ObjectID('6005a1b9aa8466094d6d6052') }, (error, user) => {
-    //     if (error) return console.log(`Unable to fetch`)
-    //     console.log(user)
-    // })
-
-    // db.collection(`users`).find({age : 30}).toArray((error, documents) => {
-    //     console.log(documents)
-    // })
-
     db.collection(`tasks`).findOne({ _id : new ObjectID("60059ddc4cf01e0846360bfa")}, (error, task) => {
         if (error) return console.log(`Unable to fetch`)
         console.log(task)
     })
 
     db.collection(`tasks`).find({ completed : false }).toArray((error, documents) => {
+        if (error) return console.log(`Unable to fetch`)
         console.log(documents)
     })
 
