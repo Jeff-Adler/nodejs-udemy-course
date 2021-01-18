@@ -15,15 +15,15 @@ client.connect((error,client) => {
 
     const db = client.db(dbName);
 
-    db.collection(`tasks`).findOne({ _id : new ObjectID("60059ddc4cf01e0846360bfa")}, (error, task) => {
-        if (error) return console.log(`Unable to fetch`)
-        console.log(task)
+    db.collection(`users`).updateOne({ _id: new ObjectID("6004e6a8113fd2fed7f16e0a") }, {
+        $set: {
+            name : 'John'
+        }
     })
-
-    db.collection(`tasks`).find({ completed : false }).toArray((error, documents) => {
-        if (error) return console.log(`Unable to fetch`)
-        console.log(documents)
+    .then((result) => {
+        console.log(result)
     })
-
-    // client.close();
+    .catch((error) => {
+        console.log(error)
+    })
   });
