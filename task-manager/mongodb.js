@@ -15,9 +15,21 @@ client.connect((error,client) => {
 
     const db = client.db(dbName);
 
-    db.collection(`users`).updateOne({ _id: new ObjectID("6004e6a8113fd2fed7f16e0a") }, {
+    // db.collection(`users`).updateOne({ _id: new ObjectID("6004e6a8113fd2fed7f16e0a") }, {
+    //     $inc: {
+    //         age : 1
+    //     }
+    // })
+    // .then((result) => {
+    //     console.log(result)
+    // })
+    // .catch((error) => {
+    //     console.log(error)
+    // })
+
+    db.collection(`tasks`).updateMany({ completed : false }, {
         $set: {
-            name : 'John'
+            completed: true
         }
     })
     .then((result) => {
