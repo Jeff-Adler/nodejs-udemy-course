@@ -53,29 +53,29 @@ const me = new User({
         password: "7777777"
     })
 
-me.save()
-.then((data) => console.log(data))
-.catch((error) => console.log("Error!", error))
-
-// const Task = mongoose.model('Task',{
-//     description: {
-//         type: String,
-//         required: true
-//     },
-//     completed: {
-//         type: Boolean,
-//         required: true
-//     },
-// })
-
-// const task1 = new Task({
-//     description: 'Leetcode',
-//     completed: false
-// })
-
-// task1.save()
-// .then(() => console.log(task1))
+// me.save()
+// .then((data) => console.log(data))
 // .catch((error) => console.log("Error!", error))
+
+const Task = mongoose.model('Task',{
+    description: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    completed: {
+        type: Boolean,
+        default: false
+    },
+})
+
+const task1 = new Task({
+    description: 'Errands',
+})
+
+task1.save()
+.then(() => console.log(task1))
+.catch((error) => console.log("Error!", error))
 
 
 // mongoose.connection.close()
