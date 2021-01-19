@@ -1,6 +1,7 @@
 const express = require('express')
 require('./db/mongoose')
-const User = require('./models/User')
+const User = require('./models/user')
+const Task = require('./models/task')
 
 //Set up express server
 const app = express()
@@ -14,8 +15,20 @@ app.post('/users', (req, res) => {
 
     user.save().then(() => {
         res.send(user)
-    }).catch(() => {
+    }).catch((error) => {
+        res.status(400)
+        res.send(error)
+    })
+})
 
+app.post('/tasks', (req,res) => {
+    const task = new Task(req.body)
+
+    task.save().then(() => {
+        res.send(task)
+    }).catch((error) => {
+        res.status(400)
+        res.send(error)
     })
 })
 
