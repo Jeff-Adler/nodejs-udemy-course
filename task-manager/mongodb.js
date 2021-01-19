@@ -14,9 +14,4 @@ client.connect((error,client) => {
     if (error) return console.log(`Unable to connect to database!`)
 
     const db = client.db(dbName);
-
-    db.collection(`tasks`).deleteOne({ _id: new ObjectID("6004e996747945ff9ccf5861")})
-    .then((result) => console.log(result))
-    .catch((error) => console.log(error))
-
   });
