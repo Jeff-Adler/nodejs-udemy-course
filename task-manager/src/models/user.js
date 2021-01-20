@@ -1,7 +1,7 @@
 const mongoose = require(`mongoose`)
 const validator = require(`validator`)
 
-const User = mongoose.model('User', {
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -39,5 +39,18 @@ const User = mongoose.model('User', {
         }
     }
 })
+
+// custom middleware to run before user is saved
+userSchema.pre('save', async function (next) {
+    //references user to be saved
+    const user = this
+
+    console.log('just before saving')
+
+    // run next stage of middleware
+    next()
+})
+
+const User = mongoose.model('User', userSchema)
 
 module.exports = User
