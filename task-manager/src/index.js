@@ -6,6 +6,22 @@ const taskRouter = require('./routers/task')
 const app = express()
 const port = process.env.PORT || 3000
 
+// Custom express middleware to run before route handler
+// app.use((req, res, next) => {
+    // if (req.method === 'GET') {
+    //     res.send('GET requests are disabled')
+    // } else {
+    //     next()
+    // }
+
+    //Allows route handler to run
+    // next()
+// })
+
+// app.use((req,res,next) => {
+//     res.status(503).send(`${req.method} requests are currently disabled.`)
+// })
+
 // parses body of incoming requests as json
 app.use(express.json())
 // uses routes defined in userRouter and taskRouter
@@ -26,4 +42,4 @@ const myFunction = async () => {
     console.log(data)
 }
 
-myFunction()
+// myFunction()
