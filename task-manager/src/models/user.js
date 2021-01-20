@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -41,6 +43,13 @@ const userSchema = new mongoose.Schema({
         }
     }
 })
+
+//methods: mongoose keyword to create instance method for model
+userSchema.methods.generateAuthToken = async function () {
+    const user = this
+    const token = jwt.sign({ _id: user._id.toString() }, 'thisisasecret')
+    return token
+}
 
 //static function on userSchema, which we will be able to call on User.
 //statics: mongoose keyword to create static function you call directly on Model (in other words, static, but for mongoose models)
