@@ -48,17 +48,13 @@ router.patch('/users/:id', async (req, res) => {
     }
 
     try {
-        //bypasses query middleware
-        // const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
-
         const user = await User.findById(req.params.id)
 
-        //updates each field in Updates[] for user. This triggers custom middleware
+        //updates each field in Updates[] for user. Triggers custom middleware, if it exists
         updates.forEach((update) => user[update] = req.body[update])
-        if (!user) {
-            return res.status(404).send()
-        }
 
+        await user.save()
+        
         if (!user) {
             return res.status(404).send()
         }
