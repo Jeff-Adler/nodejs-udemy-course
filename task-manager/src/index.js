@@ -1,34 +1,16 @@
 const express = require('express')
 require('./db/mongoose')
-const User = require('./models/user')
-const Task = require('./models/task')
+const userRouter = require('./routers/user')
+const taskRouter = require('./routers/task')
 
-//Set up express server
 const app = express()
 const port = process.env.PORT || 3000
 
-//Parse incoming JSON requests
+// parses body of incoming requests as json
 app.use(express.json())
-
-app.post('/users', (req, res) => {
-    const user = new User(req.body)
-
-    user.save().then(() => {
-        res.status(201).send(user)
-    }).catch((error) => {
-        res.status(400).send(error)
-    })
-})
-
-app.post('/tasks', (req,res) => {
-    const task = new Task(req.body)
-
-    task.save().then(() => {
-        res.status(201).send(task)
-    }).catch((error) => {
-        res.status(400).send(error)
-    })
-})
+// uses routes defined in userRouter and taskRouter
+app.use(userRouter)
+app.use(taskRouter)
 
 app.listen(port, () => {
     console.log('Server is up on port ' + port)
