@@ -1,12 +1,13 @@
-const mongoose = require(`mongoose`)
-const validator = require(`validator`)
+const mongoose = require('mongoose')
+const validator = require('validator')
+const bcrypt = require('bcryptjs')
 
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
         trim: true
-    }, 
+    },
     email: {
         type: String,
         required: true,
@@ -14,40 +15,40 @@ const userSchema = new mongoose.Schema({
         lowercase: true,
         validate(value) {
             if (!validator.isEmail(value)) {
-                throw new Error (`Email is invalid`)
-            }
-        }
-    },
-    age: {
-        type: Number,
-        default:0,
-        validate(value) {
-            if (value < 0) {
-                throw new Error('Age must be a positive number')
+                throw new Error('Email is invalid')
             }
         }
     },
     password: {
         type: String,
         required: true,
+        minlength: 7,
         trim: true,
-        minLength: 7,
         validate(value) {
             if (value.toLowerCase().includes('password')) {
                 throw new Error('Password cannot contain "password"')
             }
         }
+    },
+    age: {
+        type: Number,
+        default: 0,
+        validate(value) {
+            if (value < 0) {
+                throw new Error('Age must be a postive number')
+            }
+        }
     }
 })
 
-// custom middleware to run before user is saved
 userSchema.pre('save', async function (next) {
-    //references user to be saved
     const user = this
 
-    console.log('just before saving')
+    console.log('hashing password')
+    // if (user.isModified('password')) {
+    //     user.password = await bcrypt.hash(user.password, 8)
+    // }
 
-    // run next stage of middleware
     next()
 })
 
