@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
+        unique: true,
         required: true,
         trim: true,
         lowercase: true,
@@ -41,6 +42,27 @@ const userSchema = new mongoose.Schema({
     }
 })
 
+//static function on userSchema, which we will be able to call on User.
+//statics: mongoose keyword to create static function you call directly on Model (in other words, static, but for mongoose models)
+userSchema.statics.findByCredentials = async (email, password) => {
+    const user = await User.findOne({ email })
+
+    //No user is found with given email
+    if (!user) {
+        throw new Error('Unable to login')
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password)
+
+    //User with given email is found, but given password does not match found user's password
+    if (!isMatch) {
+        throw new Error('Unable to login')
+    }
+
+    return user
+}
+
+//Hash plain text password on user creation/update
 userSchema.pre('save', async function (next) {
     const user = this
 

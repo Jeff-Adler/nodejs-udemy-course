@@ -13,6 +13,14 @@ router.post('/tasks', async (req, res) => {
     }
 })
 
+router.post('/users/login', async (req, res) => {
+    try {
+        const user = await User.findByCredentials(req.body.email, req.body.password)
+    } catch (e) {
+
+    }
+})
+
 router.get('/tasks', async (req, res) => {
     try {
         const tasks = await Task.find({})
