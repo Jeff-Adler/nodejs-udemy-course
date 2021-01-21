@@ -51,6 +51,17 @@ const userSchema = new mongoose.Schema({
     }]
 })
 
+//essentially a serializer that removes password and tokens for all routes that send back user data
+userSchema.methods.toJSON = function () {
+    const user = this
+    const userObject = user.toObject()  
+
+    delete userObject.password
+    delete userObject.tokens
+
+    return userObject
+}
+
 //methods: mongoose keyword to create instance method for model
 userSchema.methods.generateAuthToken = async function () {
     const user = this
