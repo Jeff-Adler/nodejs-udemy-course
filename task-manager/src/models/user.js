@@ -51,6 +51,13 @@ const userSchema = new mongoose.Schema({
     }]
 })
 
+// Establishes ActiveRecord assoication between User and their Tasks
+userSchema.virtual('tasks', {
+    ref: 'Task',
+    localField: '_id',
+    foreignField: 'owner'
+})
+
 //essentially a serializer that removes password and tokens for all routes that send back user data
 userSchema.methods.toJSON = function () {
     const user = this

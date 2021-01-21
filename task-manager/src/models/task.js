@@ -12,7 +12,9 @@ const Task = mongoose.model('Task', {
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        required: true,
+        //mongoose field to setup ActiveRecord association between User and Task
+        ref: 'User'
     }
 })
 
