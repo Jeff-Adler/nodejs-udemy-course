@@ -17,6 +17,8 @@ router.post('/tasks', auth, async (req, res) => {
     }
 })
 
+// GET /tasks?completed=(true/false)
+// GET /tasks?limit=(10)&skip=(0)
 router.get('/tasks', auth, async (req, res) => {
     // filter parameter for tasks
     const match = {}
@@ -31,7 +33,12 @@ router.get('/tasks', auth, async (req, res) => {
             // path specifies field on User for which we want to get data
             path: 'tasks',
             // specifies matching parameter for path. Shorthand notation for match: {}
-            match
+            match,
+            options: {
+                //Mongoose knows to ignore this field if it's not passed a number, so default limit will essentially be 0
+                limit: parseInt(req.query.limit),
+                skip: parseInt(req.query.skip)
+            }
         }).execPopulate()
         res.send(req.user.tasks)
     } catch (e) {
