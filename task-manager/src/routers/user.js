@@ -77,6 +77,7 @@ router.patch('/users/me', auth, async (req, res) => {
 router.delete('/users/me', auth, async (req, res) => {
     try {
         //auth middleware attaches all relevant info to req.user
+        //userSchema.pre remove middleware will delete associated tasks
         await req.user.remove()
         res.send(req.user)
     } catch (e) {
