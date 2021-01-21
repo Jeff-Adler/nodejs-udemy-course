@@ -18,8 +18,21 @@ router.post('/tasks', auth, async (req, res) => {
 })
 
 router.get('/tasks', auth, async (req, res) => {
+    // filter parameter for tasks
+    const match = {}
+    
+    if (req.query.completed) {
+        // casts true/false string value of req.query.completed to boolean and assigns to match.completed
+        match.completed = (req.query.completed === 'true')
+    }
+    
     try {
-        await req.user.populate('tasks').execPopulate()
+        await req.user.populate({
+            // path specifies field on User for which we want to get data
+            path: 'tasks',
+            // specifies matching parameter for path. Shorthand notation for match: {}
+            match
+        }).execPopulate()
         res.send(req.user.tasks)
     } catch (e) {
         res.status(500).send()
