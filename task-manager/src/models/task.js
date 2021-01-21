@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
-const Task = mongoose.model('Task', {
+//Schema is the basic mongoose template that maps to MongoDB collection
+const taskSchema = new mongoose.Schema({
     description: {
         type: String,
         required: true,
@@ -16,6 +17,10 @@ const Task = mongoose.model('Task', {
         //mongoose field to setup ActiveRecord association between User and Task
         ref: 'User'
     }
+}, {
+    timestamps: true
 })
+
+const Task = mongoose.model('Task', taskSchema)
 
 module.exports = Task
