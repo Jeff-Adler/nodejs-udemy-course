@@ -42,6 +42,7 @@ const userSchema = new mongoose.Schema({
             }
         }
     },
+    //tokens is an array of objects of single key-value pairs _id: , token: 
     tokens: [{
         token: {
             type: String,
