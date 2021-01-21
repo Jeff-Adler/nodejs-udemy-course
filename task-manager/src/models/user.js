@@ -50,7 +50,10 @@ const userSchema = new mongoose.Schema({
             required: true
         }
     }]
-})
+}, {
+    timestamps: true
+}
+)
 
 // Establishes ActiveRecord assoication between User and their Tasks
 userSchema.virtual('tasks', {
