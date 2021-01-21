@@ -19,13 +19,24 @@ router.post('/tasks', auth, async (req, res) => {
 
 // GET /tasks?completed=(true/false)
 // GET /tasks?limit=(10)&skip=(0)
+// GET /tasks?sortBy=createdAt:(asc/desc)
 router.get('/tasks', auth, async (req, res) => {
-    // filter parameter for tasks
+    // filter parameter
     const match = {}
+    // sort parameter
+    const sort = {}
     
     if (req.query.completed) {
         // casts true/false string value of req.query.completed to boolean and assigns to match.completed
         match.completed = (req.query.completed === 'true')
+    }
+
+    if (req.query.sortBy) {
+        const parts = req.query.sortBy.split(':')
+        // parts[0] = field to sort by
+        // parts[1] = asc/desc
+        // sets sort value to -1 if query parameter is set to desc, 1 if asc/anything else
+        sort[parts[0]] = (parts[1] === 'desc' ? -1 : 1)
     }
     
     try {
@@ -37,7 +48,9 @@ router.get('/tasks', auth, async (req, res) => {
             options: {
                 //Mongoose knows to ignore this field if it's not passed a number, so default limit will essentially be 0
                 limit: parseInt(req.query.limit),
-                skip: parseInt(req.query.skip)
+                skip: parseInt(req.query.skip),
+                //Shorthand notation for sort : {} using sort variabe from above
+                sort
             }
         }).execPopulate()
         res.send(req.user.tasks)
